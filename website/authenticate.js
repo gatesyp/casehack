@@ -38,22 +38,27 @@ app.post('/authenticate', function(req, resp) {
           // Handle error!
         } else {
           var mycount = 0;
-        //   var secondCount = 0;
+          var secondCount = 0;
           var myArray = {};
           // An array of accounts for this user, containing account
           // names, balances, and account and routing numbers.
           for (var check in res.transactions) {
-              if(res.transactions[check]["type"]["primary"] == "place")
+              n = mycount.toString();
+              myArray[n] = {};//initialize inner array
+
+              if(res.transactions[check]["type"]["primary"] == "place" && res.transactions[check]["category"])
               {
                   for (var key in res.transactions[check]["category"])
                   {
+                    //   console.log(key);
                       n = mycount.toString();
                       v = secondCount.toString();
-                       myArray[n] = res.transactions[check]["category"];
-                       mycount++;
-                //       secondCount++;
+                    //   console.log(res.transactions[check]["category"][key]);
+                       myArray[n][v] = res.transactions[check]["category"][key];
+                      secondCount++;
                   }
-                  //secondCount = 0;
+                  mycount++;
+                  secondCount = 0;
                 //   for (var key in res.transactions[check]["category"])
                 //   {
                 //       myJson = myJson + "\"" + count + "\"" + ":" + "\"" + res.transactions[check]["category"][key] + "\"" + ","; console.log("----");
@@ -64,6 +69,8 @@ app.post('/authenticate', function(req, resp) {
           }
           var myJsonString = JSON.stringify(myArray);
           var lastly = JSON.stringify(myJsonString, null, 4)
+        //   console.log(myJsonString);
+
           pyshell.send(myJsonString);
 
 pyshell.on('message', function (message) {
