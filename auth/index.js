@@ -27,18 +27,13 @@ app.get("/twitter-callback", function(req, res) {
 			res.send('failed to get access token');
 			return false;
 		}
-		twitter.verifyCredentials(accessToken, accessTokenSecret, {}, function(error, data, response) {
-			if (error) {
-				res.send('failed to verify access token');
-				return false;
-			}
-			var data = new Buffer(JSON.stringify({
-				accessToken: accessToken,
-				accessTokenSecret: accessTokenSecret,
-				name: data.screen_name
-			})).toString('base64');
-			res.redirect('chrome://extensions/efjnbebhdpcneehmadobijcjfibakdee/callback/twitter.html?_=' + data);
-		});
+		var data = new Buffer(JSON.stringify({
+			accessToken: accessToken,
+			accessTokenSecret: accessTokenSecret,
+			name: results.screen_name,
+			uid: results.user_id
+		})).toString('base64');
+		res.redirect('chrome://extensions/efjnbebhdpcneehmadobijcjfibakdee/callback/twitter.html?_=' + encodeURIComponent(data));
 	});
 });
 
