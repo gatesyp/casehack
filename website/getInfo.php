@@ -17,12 +17,21 @@ $settings = array(
 $url = 'https://api.twitter.com/1.1/followers/ids.json';
 $getfield = '?screen_name=J7mbo';
 $requestMethod = 'GET';
-
-$twitter = new TwitterAPIExchange($settings);
-echo $twitter->setGetfield($getfield)
-    ->buildOauth($url, $requestMethod)
-    ->performRequest();
-    echo "hello";
+var_dump(get_loaded_extensions());
+// if (!in_array('curl', get_loaded_extensions()))
+// {
+//     throw new Exception('You need to install cURL, see: http://curl.haxx.se/docs/install.html');
+// }
+// try {
+//     $twitter = new TwitterAPIExchange($settings);
+//
+// } catch (Exception $e) {
+//     echo $e;
+// }
+// echo $twitter->setGetfield($getfield)
+//     ->buildOauth($url, $requestMethod)
+//     ->performRequest();
+//     echo "hello";
 
 // buildProfile();
 // echo $_GET['address'];
