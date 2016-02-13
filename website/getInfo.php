@@ -1,9 +1,29 @@
 <?php
 error_reporting(E_ALL);
 require 'dbConnect.php';
-require_once('TwitterAPIExchange.php');
+require_once 'TwitterAPIExchange.php';
 require_once 'alchemyapi.php';
+
 $alchemyapi = new AlchemyAPI();
+$tmpToken = "378220962-EZjtEVdg9DVvIt9FqfgiJw38j8iLnAFyc0cGOrnU";
+$tmpTokenSecret = "RJm3zc30b3hq4TdQLS1WyLW194lLfLINLKqo8zwCsKOfo";
+$settings = array(
+    'oauth_access_token' => "378220962-EZjtEVdg9DVvIt9FqfgiJw38j8iLnAFyc0cGOrnU",
+    'oauth_access_token_secret' => "RJm3zc30b3hq4TdQLS1WyLW194lLfLINLKqo8zwCsKOfo",
+    'consumer_key' => "Ctf8nFNF64nHjyDNI2Y1jwrwy",
+    'consumer_secret' => "SIVEEOTeZITLkcXqKnLRGCQA3rvUmzugweja4LtwiKfrxp4rov"
+);
+
+$url = 'https://api.twitter.com/1.1/followers/ids.json';
+$getfield = '?screen_name=J7mbo';
+$requestMethod = 'GET';
+
+$twitter = new TwitterAPIExchange($settings);
+echo $twitter->setGetfield($getfield)
+    ->buildOauth($url, $requestMethod)
+    ->performRequest();
+    echo "hello";
+
 // buildProfile();
 // echo $_GET['address'];
 if (isset($_GET['twitter']) && !empty($_GET['address'])) {
