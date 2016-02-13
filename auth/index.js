@@ -33,7 +33,7 @@ app.get("/twitter-callback", function(req, res) {
 			name: results.screen_name,
 			uid: results.user_id
 		})).toString('base64');
-		res.send('<meta http-equiv="refresh" content="0;url=chrome://extensions/efjnbebhdpcneehmadobijcjfibakdee/callback/twitter.html?_=' + encodeURIComponent(data) + '">');
+		res.send('<meta http-equiv="refresh" content="0;url=chrome-extensions://efjnbebhdpcneehmadobijcjfibakdee/callback/twitter.html?_=' + encodeURIComponent(data) + '">');
 	});
 });
 
