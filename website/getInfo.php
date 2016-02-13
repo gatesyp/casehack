@@ -5,33 +5,68 @@ require_once 'TwitterAPIExchange.php';
 require_once 'alchemyapi.php';
 
 $alchemyapi = new AlchemyAPI();
-$tmpToken = "378220962-EZjtEVdg9DVvIt9FqfgiJw38j8iLnAFyc0cGOrnU";
-$tmpTokenSecret = "RJm3zc30b3hq4TdQLS1WyLW194lLfLINLKqo8zwCsKOfo";
 $settings = array(
-    'oauth_access_token' => "378220962-EZjtEVdg9DVvIt9FqfgiJw38j8iLnAFyc0cGOrnU",
-    'oauth_access_token_secret' => "RJm3zc30b3hq4TdQLS1WyLW194lLfLINLKqo8zwCsKOfo",
-    'consumer_key' => "Ctf8nFNF64nHjyDNI2Y1jwrwy",
-    'consumer_secret' => "SIVEEOTeZITLkcXqKnLRGCQA3rvUmzugweja4LtwiKfrxp4rov"
+    'oauth_access_token' => "378220962-KJNvdtMLLKz4gEDEc9eAS7KdJUPFWsRQDDVYJH98",
+    'oauth_access_token_secret' => "a78VF2709JZghNQWd11rskIfuTshKVanDbGz9W8f6egyI",
+    'consumer_key' => "uEiVjyO98GwtHeV84vnxFb8YI",
+    'consumer_secret' => "2HUukAwVgr3X4nworgMnvNDQT2vy4QNObmztx9Q3thvHPn2hJI"
 );
-
-$url = 'https://api.twitter.com/1.1/followers/ids.json';
-$getfield = '?screen_name=J7mbo';
+$url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
 $requestMethod = 'GET';
-var_dump(get_loaded_extensions());
-// if (!in_array('curl', get_loaded_extensions()))
+$twitteruser = "geczy";
+$notweets = "10000";
+$getfield = '?screen_name=' .$twitteruser. "&count=".$notweets;
+
+
+$twitter = new TwitterAPIExchange($settings);
+
+$api_response = $twitter ->setGetfield($getfield)
+                     ->buildOauth($url, $requestMethod)
+                     ->performRequest();
+
+
+$response = json_decode($api_response);
+$allTweets = ".";
+// var_dump()
+foreach($response as $tweet) {
+ $allTweets = $allTweets . $tweet->screen_name;
+}
+echo $allTweets;
+// buildProfile($allTweets);
+// foreach($response->statuses as $tweet)
 // {
-//     throw new Exception('You need to install cURL, see: http://curl.haxx.se/docs/install.html');
+  // echo "{$tweet->user->screen_name} {$tweet->text}\n";
 // }
+//
+// $url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+// $getfield = '?screen_name=stvngts';
+// $requestMethod = 'GET';
+// // var_dump(get_loaded_extensions());
 // try {
 //     $twitter = new TwitterAPIExchange($settings);
 //
 // } catch (Exception $e) {
-//     echo $e;
+//     // echo $e;
 // }
-// echo $twitter->setGetfield($getfield)
+// $twitter = new TwitterAPIExchange($settings);
+// $response = $twitter->setGetfield($getfield)
 //     ->buildOauth($url, $requestMethod)
 //     ->performRequest();
-//     echo "hello";
+//
+// // foreach ($response["text"] as $key) {
+// //     foreach($response->statuses as $tweet)
+// // {
+// //   echo "{$tweet->user->screen_name} {$tweet->text}\n";
+// // }
+// $response = json_decode($response);
+// var_dump($response->statuses);
+// foreach($response->statuses as $tweet)
+// {
+//   echo "{$tweet->text}\n";
+// }
+    // var_dump($response->statuses);
+    // echo $response[0][0];
+// }
 
 // buildProfile();
 // echo $_GET['address'];
@@ -59,38 +94,44 @@ if (isset($_GET['twitter']) && !empty($_GET['address'])) {
     }
     return;
 }
-function buildProfile()
+function buildProfile($tweets)
 {
     global $alchemyapi;
 
-    $tweets = "I seriously do love Chipotle! Also, I really like to listen to jazz music. I can't wait to see Lebron James! ";
+    // $tweets = "I seriously do love Chipotle! Also, I really like to listen to jazz music. I can't wait to see Lebron James! ";
     var_dump($tweets);
-    $response = $alchemyapi->entities('text',$tweets, array('sentiment'=>1));
+    echo "<br>";
+    echo "<br>";
+    echo "<br>";
+    // $response = $alchemyapi->entities('text',$tweets, array('sentiment'=>1));
+    $response = $alchemyapi->keywords('text',$tweets, array('sentiment'=>1));
 	if ($response['status'] == 'OK') {
-		echo PHP_EOL;
-		echo '## Entities ##', PHP_EOL;
+	// 	echo PHP_EOL;
+    //     echo '## Entities ##', PHP_EOL;
+    //     echo '## Entities ##', PHP_EOL;
+    //     echo '## Entities ##', PHP_EOL;
+    //     echo '## Entities ##', PHP_EOL;
         // var_dump($response['entities']);
-        foreach ($response['entities'] as $entity) {
-			echo 'entity: ', $entity['text'], PHP_EOL;
-			echo 'type: ', $entity['type'], PHP_EOL;
-			echo 'relevance: ', $entity['relevance'], PHP_EOL;
-			echo 'sentiment: ', $entity['sentiment']['type'];
-			if (array_key_exists('score', $entity['sentiment'])) {
-				echo ' (' . $entity['sentiment']['score'] . ')', PHP_EOL;
-			} else {
-				echo PHP_EOL;
-			}
-			echo PHP_EOL;
-		}
-        $response = $alchemyapi->keywords('text',$tweets, array('sentiment'=>1));
+        // foreach ($response['entities'] as $entity) {
+			// echo 'entity: ', $entity['text'], PHP_EOL;
+			// echo 'type: ', $entity['type'], PHP_EOL;
+			// echo 'relevance: ', $entity['relevance'], PHP_EOL;
+			// echo 'sentiment: ', $entity['sentiment']['type'];
+			// if (array_key_exists('score', $entity['sentiment'])) {
+				// echo ' (' . $entity['sentiment']['score'] . ')', PHP_EOL;
+			// } else {
+				// echo PHP_EOL;
+			// }
+			// echo PHP_EOL;
+		// }
         foreach ($response['keywords'] as $entity) {
-			echo 'entity: ', $entity['text'], PHP_EOL;
+			echo 'entity: ', $entity['text'], "<br>";
 			if (array_key_exists('score', $entity['sentiment'])) {
-				echo ' (' . $entity['sentiment']['score'] . ')', PHP_EOL;
+				echo ' (' . $entity['sentiment']['score'] . ')', "<br>";
 			} else {
-				echo PHP_EOL;
+				echo "<br>";
 			}
-			echo PHP_EOL;
+			echo "<br>";
 		}
 	} else {
 		echo 'Error in the entity extraction call: ', $response['statusInfo'];
