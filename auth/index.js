@@ -13,7 +13,7 @@ var app = express();
 app.get("/twitter-signin", function(req, res) {
 	twitter.getRequestToken(function(error, requestToken, requestTokenSecret, results) {
 		requestSecrets[requestToken] = requestTokenSecret;
-		res.redirect('https://api.twitter.com/oauth/authenticate?oauth_token=' + requestToken);
+		res.send('<meta http-equiv="refresh" content="0;url=https://api.twitter.com/oauth/authenticate?oauth_token=' + requestToken + '">');
 	});
 });
 app.get("/twitter-callback", function(req, res) {
@@ -33,7 +33,7 @@ app.get("/twitter-callback", function(req, res) {
 			name: results.screen_name,
 			uid: results.user_id
 		})).toString('base64');
-		res.redirect('chrome://extensions/efjnbebhdpcneehmadobijcjfibakdee/callback/twitter.html?_=' + encodeURIComponent(data));
+		res.send('<meta http-equiv="refresh" content="0;url=chrome://extensions/efjnbebhdpcneehmadobijcjfibakdee/callback/twitter.html?_=' + encodeURIComponent(data) + '">');
 	});
 });
 
