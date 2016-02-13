@@ -33,7 +33,9 @@ if (isset($_GET['twitter']) && !empty($_GET['address'])) {
 function buildProfile()
 {
     global $alchemyapi;
+
     $tweets = "I seriously do love Chipotle! Also, I really like to listen to jazz music. I can't wait to see Lebron James! ";
+    var_dump($tweets);
     $response = $alchemyapi->entities('text',$tweets, array('sentiment'=>1));
 	if ($response['status'] == 'OK') {
 		echo PHP_EOL;
