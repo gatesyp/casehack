@@ -10,8 +10,7 @@ var url = 'mongodb://localhost:27017/test';
 // });
 
 var insertDocument = function(db, callback) {
-// change the collection name
-   db.collection('place').insertOne( {
+   db.collection('restaurants').insertOne( {
       "address" : {
          "street" : "2 Avenue",
          "zipcode" : "10075",

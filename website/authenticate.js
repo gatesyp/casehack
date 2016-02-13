@@ -1,6 +1,8 @@
 var express = require('express');
 var plaid = require('plaid');
 var bodyParser = require('body-parser');
+var PythonShell = require('python-shell');
+var pyshell = new PythonShell('algorithm.py');
 
 var app = express();
 
@@ -35,21 +37,47 @@ app.post('/authenticate', function(req, resp) {
             resp.send(err);
           // Handle error!
         } else {
+          var mycount = 0;
+        //   var secondCount = 0;
+          var myArray = {};
           // An array of accounts for this user, containing account
           // names, balances, and account and routing numbers.
           for (var check in res.transactions) {
               if(res.transactions[check]["type"]["primary"] == "place")
               {
-                //   var lastKey = res.transactions[check]["category"];//.sort().reverse[0];
-                //   var lastValue = res.transactions[check]["category"][lastKey];
-                //   console.log(lastKey);
                   for (var key in res.transactions[check]["category"])
                   {
-                      console.log(res.transactions[check]["category"][key]);
+                      n = mycount.toString();
+                      v = secondCount.toString();
+                       myArray[n] = res.transactions[check]["category"];
+                       mycount++;
+                //       secondCount++;
                   }
+                  //secondCount = 0;
+                //   for (var key in res.transactions[check]["category"])
+                //   {
+                //       myJson = myJson + "\"" + count + "\"" + ":" + "\"" + res.transactions[check]["category"][key] + "\"" + ","; console.log("----");
+                  //
+                //       ++count;
+                //   }
               }
-            //   console.log(res.transactions[check]["type"]);
           }
+          var myJsonString = JSON.stringify(myArray);
+          var lastly = JSON.stringify(myJsonString, null, 4)
+          pyshell.send(myJsonString);
+
+pyshell.on('message', function (message) {
+  // received a message sent from the Python script (a simple "print" statement)
+  console.log(message);
+});
+
+// end the input stream and allow the process to exit
+pyshell.end(function (err) {
+  if (err) throw err;
+  console.log('finished');
+});
+
+//------------------------------------------------------------------------------------------------------------------------------
           var transactions = res.transactions;
 
           // Return account data
