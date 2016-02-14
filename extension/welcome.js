@@ -10,11 +10,24 @@ var linkHandler = Plaid.create({
   key: 'cdcac057858a05be42e9be71860311',
   product: 'connect',
   onSuccess: function(public_token, meta) {
-    sweetAlert("Congrats",
-    "You have successfully added your " + meta.institution.name + " account to GeoHunt!",
-    "success");
-    //TODO: send public_token and email to server :)
-    console.log(public_token);
+    chrome.extension.sendMessage({
+			command: "link",
+			public_token: public_token
+		}, function(response) {
+			if (response.result == 0) {
+        sweetAlert("Congrats",
+        "You have successfully added your " + meta.institution.name + " account to GeoHunt!",
+        "success");
+      } else if (response.result == 1) {
+        sweetAlert("Great",
+        "You just updated your " + meta.institution.name + " account transaction data!",
+        "success");
+      } else {
+        sweetAlert("Oops",
+        "An unexpected error happend when linking your accounts. Please try again later.",
+        "error");
+      }
+		});
   }
 });
 function stepBtnOnClick(e) {
@@ -43,4 +56,21 @@ function stepBtnOnClick(e) {
 }
 for (var i = 0; i < stepBtns.length; i++) {
   stepBtns[i].addEventListener("click", stepBtnOnClick, false);
+}
+var geocoder, map;
+function initialize() {
+  geocoder = new google.maps.Geocoder();
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 41.0, lng: -77.5},
+    zoom: 8
+  });
+}
+function adjustMap() {
+  var mapHeight = window.innerHeight - document.querySelector('header').offsetHeight;
+  document.querySelector('#map').style.height = mapHeight + 'px';
+}
+document.querySelector('a[href="#features"]').addEventListener("click", adjustMap);
+adjustMap();
+window.onresize = function() {
+  adjustMap();
 }

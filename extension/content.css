@@ -1,0 +1,29 @@
+#geo-hunt-box {
+    position: fixed;
+    background: #FFF;
+    z-index: 10000;
+    width: 200px;
+    height: 100px;
+    border-radius: 2px;
+    padding: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.3);
+    font-family: Roboto;
+    opacity: 1;
+    transition: opacity .4s;
+}
+
+#geo-hunt-box.exiting {
+    opacity: 0;
+}
+
+#geo-hunt-box .header {
+    line-height: 28px;
+    font-size: 22px;
+    color: #333;
+}
+
+#geo-hunt-box .content {
+    height: 74px;
+    line-height: 18px;
+    fontsize: 16px;
+}

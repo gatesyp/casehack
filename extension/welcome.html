@@ -25,8 +25,7 @@
         display: none;
       }
       main > .mdl-layout__tab-panel {
-        padding: 8px;
-        padding-top: 48px;
+        padding: 48px 8px;
       }
       section.section--center {
         max-width: 940px;
@@ -91,6 +90,23 @@
       .step-box * {
         vertical-align: middle;
       }
+
+      #map {
+        left: -8px;
+        width: calc(100% + 16px);
+        height: 100%;
+        top: -48px;
+        margin-bottom: -96px;
+        height: 400px;
+      }
+
+      #features {
+        position: relative;
+      }
+
+      .mdl-layout__header {
+        min-height: 48px;
+      }
   </style>
 </head>
 <body>
@@ -105,7 +121,7 @@
       </div>
       <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
         <a href="#overview" class="mdl-layout__tab is-active">Welcome</a>
-        <a href="#features" class="mdl-layout__tab">Config</a>
+        <a href="#features" class="mdl-layout__tab">Favorites</a>
       </div>
     </header>
     <main class="mdl-layout__content mdl-color--grey-100">
@@ -139,7 +155,8 @@
         </section>
       </div>
       <div class="mdl-layout__tab-panel" id="features">
-          P2
+          <div id="map">
+          </div>
       </div>
     </main>
   </div>
@@ -147,5 +164,6 @@
   <script src="./material.min.js"></script>
   <script src="./sweetalert.min.js"></script>
   <script src="./welcome.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJLsyD8XUDL0G3FnPPttO_1tt95WlS3Cw&callback=initialize"></script>
 </body>
 </html>
