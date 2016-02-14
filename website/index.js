@@ -66,12 +66,7 @@ app.post('/api/link', function(req, resp) {
                   }
                   mycount++;
                   secondCount = 0;
-                //   for (var key in res.transactions[check]["category"])
-                //   {
-                //       myJson = myJson + "\"" + count + "\"" + ":" + "\"" + res.transactions[check]["category"][key] + "\"" + ","; console.log("----");
-                  //
-                //       ++count;
-                //   }
+
               }
           }
           myArray["id"] = req.body.google_id;
@@ -112,12 +107,28 @@ pyshell.end(function (err) {
 
 app.post('/api/query', function(req, resp) {
 // get the google_id
-    var google_id = req.body.google_id;
 // get the address
+    var google_id = req.body.google_id;
     var address = req.body.address;
-// google maps API to find information.
-// maybe python
+    var my_message = {}
+    var pyshell = new PythonShell('query.py');
+    my_message.profID = google_id;
+    my_message.addr = address;
 
+    my_message = JSON.stringify(my_message);
+
+    console.log(my_message);
+    pyshell.send(my_message);
+    pyshell.on('message', function (message) {
+        // received a message sent from the Python script (a simple "print" statement)
+            console.log(message);
+    });
+
+// end the input stream and allow the process to exit
+    pyshell.end(function (err) {
+        if(err) throw err;
+        console.log('finished');
+});
 
 
 
