@@ -2,7 +2,6 @@ var express = require('express');
 var plaid = require('plaid');
 var bodyParser = require('body-parser');
 var PythonShell = require('python-shell');
-var pyshell = new PythonShell('algorithm.py');
 
 var app = express();
 
@@ -29,7 +28,7 @@ app.post('/authenticate', function(req, resp) {
       // retrieve accounts and transactions
       var access_token = respond.access_token;
       plaidClient.getConnectUser(access_token, {
-          start_date : "60 days ago", end_date : "today"
+          start_date : "360 days ago", end_date : "today"
       }, function(err, res) {
 
         if (err != null) {
@@ -67,12 +66,14 @@ app.post('/authenticate', function(req, resp) {
                 //   }
               }
           }
+          myArray["id"] = "ZACXACXAC";
           var myJsonString = JSON.stringify(myArray);
-          var lastly = JSON.stringify(myJsonString, null, 4)
-        //   console.log(myJsonString);
+        //   var lastly = JSON.stringify(myJsonString, null, 4)
+          console.log(myJsonString);
 
+          var pyshell = new PythonShell('create_profile.py');
           pyshell.send(myJsonString);
-
+console.log("got here");
 pyshell.on('message', function (message) {
   // received a message sent from the Python script (a simple "print" statement)
   console.log(message);
@@ -85,10 +86,11 @@ pyshell.end(function (err) {
 });
 
 //------------------------------------------------------------------------------------------------------------------------------
-          var transactions = res.transactions;
+          var result = {"result" : 0 };
 
           // Return account data
-          resp.json({transactions: transactions});
+
+          resp.json({result: result});
         }
       });
     }
