@@ -11,6 +11,13 @@ var plaidClient = new plaid.Client("56bef3967c1539e11d919a62",
 
 app.use(bodyParser.urlencoded({ extended : false}));
 
+
+//------------------------------------------------------------------------------------------------------------------------------
+// LINK ENDPOINT - Registers a new user, and compiles a profile from their transactions. Takes a PLAID api access token and google_id
+//------------------------------------------------------------------------------------------------------------------------------
+
+
+
 app.post('/api/link', function(req, resp) {
 
   var public_token = req.body.public_token;
@@ -88,7 +95,6 @@ pyshell.end(function (err) {
   console.log('finished');
 });
 
-//------------------------------------------------------------------------------------------------------------------------------
 
           // Return account data
           var result = {"result" : 0 };
@@ -99,5 +105,117 @@ pyshell.end(function (err) {
     }
   });
 });
+
+//------------------------------------------------------------------------------------------------------------------------------
+// QUERY ENDPOINT - Request information about an address. Takes an address and google_id.
+//------------------------------------------------------------------------------------------------------------------------------
+
+app.post('/api/query', function(req, resp) {
+// get the google_id
+    var google_id = req.body.google_id;
+// get the address
+    var address = req.body.address;
+// google maps API to find information.
+// maybe python
+
+
+
+
+
+    var result = {"result" : 0 };
+    resp.json({result: result});
+
+});
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------
+// SAVE ENDPOINT - Save a new location to database for a user. Takes google_id and a list which holds location information.
+//------------------------------------------------------------------------------------------------------------------------------
+
+app.post('/api/save', function(req, resp) {
+// get the google_id
+    var google_id = req.body.google_id;
+// get the list
+    var list = req.body.list;
+
+// iterate through list
+
+    var public_token = req.body.public_token;
+
+
+    var result = {"result" : 0 };
+
+    resp.json({result: result});
+
+});
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------
+// DELETE ENDPOINT - Delete an address from the database. Takes an address and google_id.
+//------------------------------------------------------------------------------------------------------------------------------
+
+
+app.delete('/api/favorite', function(req, resp) {
+// get the google_id
+    var google_id = req.body.google_id;
+// get the list
+    var list = req.body.list;
+
+// iterate through list
+
+    var public_token = req.body.public_token;
+
+
+    var result = {"result" : 0 };
+
+    resp.json({result: result});
+
+});
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------
+// VIEW ENDPOINT - Get request on /favorite endpoint. Takes a google_id, and dumps everything related to the user.
+//------------------------------------------------------------------------------------------------------------------------------
+
+
+app.get('/api/favorite', function(req, resp) {
+// get the google_id
+    var google_id = req.body.google_id;
+// get the list
+    var list = req.body.list;
+
+// iterate through list
+
+    var public_token = req.body.public_token;
+
+
+    var result = {"result" : 0 };
+
+    resp.json({result: result});
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.listen(8080, function(){});
