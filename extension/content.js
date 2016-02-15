@@ -18,7 +18,7 @@
   }
   function handleMouseUp(e) {
     var selected = String(document.getSelection()),
-    streetRegex = /((?:(?:\d+(?:\x20+\w+\.?)+)))(?:(?:\,\s+)|\n)?((?:[#0-9A-Za-z\-]+\x20*)+)?(?:\,\s+|\n)((?:[A-Za-z]+\x20*)+)\,\s+(A[LKSZRAP]|C[AOT]|D[EC]|F[LM]|G[AU]|HI|I[ADLN]|K[SY]|LA|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[ARW]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY])(?:\s+(\d{5}(?:-\d{4})?))?/,
+    streetRegex = /((?:(?:\d+(?:\x20+\w+\.?)+)))(?:(?:\,\s+)|\n)?((?:[#0-9A-Za-z\-]+\x20*)+)?(?:\,\s+|\n)((?:[A-Za-z]+\x20*)+)\,\s+(A[LKSZRAP]|C[AOT]|D[EC]|F[LM]|G[AU]|HI|I[ADLN]|K[SY]|LA|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[ARW]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY]|[A-Z][a-z]+)(?:\s+(\d{5}(?:-\d{4})?))?/,
     extracted = streetRegex.exec(selected);
     if (extracted) {
       if (e.target.closest('#geo-hunt-box')) return false;
@@ -33,6 +33,20 @@
         huntBox.contentDiv = document.createElement("div");
         huntBox.contentDiv.classList.add('content');
         huntBox.appendChild(huntBox.contentDiv);
+        var favBtn = document.createElement("button");
+        favBtn.className = 'mdl-button mdl-js-button mdl-button--icon';
+        var favIcon = document.createElement("i");
+        favIcon.className = 'material-icons';
+        favIcon.textContent = 'favorite_border';
+        favIcon.addEventListener("click", function() {
+          favIcon.textContent = favIcon.textContent == 'favorite_border' ?
+            'favorite' : 'favorite_border';
+        });
+        favBtn.appendChild(favIcon);
+        huntBox.appendChild(favBtn);
+        var mapImg = document.createElement("img");
+        mapImg.src = chrome.extension.getURL(extracted[5] + '.png');
+        huntBox.appendChild(mapImg);
         document.body.appendChild(huntBox);
       } else {
         if (huntBox.classList.contains('exiting')) return false;
@@ -40,7 +54,7 @@
       huntBox.contentDiv.innerHTML = extracted[1] + ', ' +
         extracted[3] + ', ' + extracted[4] + ' ' + extracted[5];
       huntBox.style.left = e.x + 'px';
-      huntBox.style.top = e.y + 'px';
+      huntBox.style.top = (e.y - 200) + 'px';
     }
   }
   document.onmousedown = handleMouseDown;

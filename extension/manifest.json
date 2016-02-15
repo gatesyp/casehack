@@ -10,14 +10,13 @@
   "content_scripts": [ {
       "all_frames": true,
       "js": [ "content.js" ],
-      "css": [ "content.css" ],
+      "css": [ "material.min.css", "content.css" ],
       "matches": [ "<all_urls>" ],
       "run_at": "document_end"
    } ],
   "browser_action": {
     "default_title": "GeoHunt",
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
+    "default_icon": "icon.png"
   },
   "permissions": [
     "activeTab",
@@ -26,6 +25,7 @@
     "tabs",
     "<all_urls>"
   ],
+  "web_accessible_resources": ["15260.png", "44106.png"],
   "options_page": "welcome.html",
   "content_security_policy": "script-src 'self' blob: filesystem: chrome-extension-resource: https://cdn.plaid.com https://maps.googleapis.com; object-src 'self'",
   "oauth2": {

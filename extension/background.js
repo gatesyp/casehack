@@ -2,6 +2,12 @@ window.__geo_hunt = {
   api_root: "https://mygeohunt.com/api"
 }
 
+chrome.browserAction.onClicked.addListener(function() {
+  chrome.tabs.create({
+    url: chrome.extension.getURL('/welcome.html')
+  });
+});
+
 function postFileData(url, data, callback) {
 	var encodeData = "",
 		append = false;
@@ -35,8 +41,13 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
         sendResponse(JSON.parse(data).result);
       });
       return true;
-    case "":
-      break;
+    case "interests":
+      postFileData("https://stoh.io/dbInter.php", {
+        google_id: localStorage.getItem("google_id")
+      }, function(data) {
+        sendResponse(JSON.parse(data));
+      });
+      return true;
   }
 });
 

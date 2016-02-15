@@ -62,7 +62,17 @@ function initialize() {
   geocoder = new google.maps.Geocoder();
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 41.0, lng: -77.5},
-    zoom: 8
+    zoom: 6
+  });
+  var markerPITT = new google.maps.Marker({
+    position: {lat: 40.444238, lng: -79.953270},
+    map: map,
+    title: '4200 Fifth Avenue, Pittsburgh, PA 15260'
+  });
+  var markerPWRU = new google.maps.Marker({
+    position: {lat: 41.504520, lng: -81.609734},
+    map: map,
+    title: '10900 Euclid Ave, Cleveland, OH 44106'
   });
 }
 function adjustMap() {
@@ -70,6 +80,39 @@ function adjustMap() {
   document.querySelector('#map').style.height = mapHeight + 'px';
 }
 document.querySelector('a[href="#features"]').addEventListener("click", adjustMap);
+var ctx = document.getElementById('catChart').getContext('2d');
+document.querySelector('a[href="#interests"]').addEventListener("click", function() {
+  chrome.extension.sendMessage({
+    command: "interests"
+  }, function(response) {
+    var chartData = [];
+    var table = document.createElement("table");
+    table.className = 'mdl-data-table mdl-js-data-table mdl-data-table--selectable';
+    var thead = document.createElement("thead");
+    thead.innerHTML = '<tr><th class="mdl-data-table__cell--non-numeric">Category</th><th>Frequency</th></tr>';
+    table.appendChild(thead);
+    var tbody = document.createElement("tbody");
+    response.results.forEach(function(item) {
+      var tr = document.createElement("tr");
+      tr.innerHTML = '<td class="mdl-data-table__cell--non-numeric">' + item.category + '</td><td>' + item.frequency + '</td>';
+      chartData.push({
+        value: item.frequency,
+        label: item.category
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    var tableDom = document.querySelector('#catTable table');
+    if (tableDom) table.parentNode.removeChild(tableDom);
+    document.getElementById('catTable').appendChild(table);
+    document.getElementById('catChart').width = 500;
+    document.getElementById('catChart').height = 400;
+    var catChart = new Chart(ctx).Doughnut(chartData, {
+      animateRotate : true,
+      animateScale: false
+    });
+  });
+});
 adjustMap();
 window.onresize = function() {
   adjustMap();

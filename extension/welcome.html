@@ -107,6 +107,16 @@
       .mdl-layout__header {
         min-height: 48px;
       }
+
+      #catChart {
+        margin: 32px 8px;
+      }
+
+      #catTable {
+        position: absolute;
+        top: 32px;
+        right: 32px;
+      }
   </style>
 </head>
 <body>
@@ -121,6 +131,7 @@
       </div>
       <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
         <a href="#overview" class="mdl-layout__tab is-active">Welcome</a>
+        <a href="#interests" class="mdl-layout__tab">Interests</a>
         <a href="#features" class="mdl-layout__tab">Favorites</a>
       </div>
     </header>
@@ -142,7 +153,7 @@
                 </div>
               </div>
               <div class="step-box" data-step="2">
-                <i class="index">2</i><span class="tip">Grant us permissions retrieve to your bank transactions</span>
+                <i class="index">2</i><span class="tip">Grant us permissions to retrieve your bank transactions</span>
                 <div class="right">
                   <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                     <i class="material-icons">add</i>
@@ -150,6 +161,17 @@
                   <i class="material-icons check">check</i>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="mdl-layout__tab-panel" id="interests">
+        <section class="section--center mdl-grid mdl-grid--no-spacing">
+          <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+            <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+              <h4>Your interests based on your spending history:</h4>
+              <div id="catTable"></div>
+              <canvas id="catChart" width="600" height="400"></canvas>
             </div>
           </div>
         </section>
@@ -163,6 +185,8 @@
   <script src="https://cdn.plaid.com/link/stable/link-initialize.js"></script>
   <script src="./material.min.js"></script>
   <script src="./sweetalert.min.js"></script>
+  <script src="./moment.min.js"></script>
+  <script src="./Chart.min.js"></script>
   <script src="./welcome.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJLsyD8XUDL0G3FnPPttO_1tt95WlS3Cw&callback=initialize"></script>
 </body>
