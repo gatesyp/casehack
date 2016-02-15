@@ -7,7 +7,7 @@ import responses
 import googlemaps
 # import urllib2
 import json
-# import MySQLdb
+import MySQLdb
 import geocoder
 import requests
 from math import sin, cos, sqrt, atan2, radians
@@ -84,7 +84,7 @@ results = r.json()['results']
 i = 0
 while i < 4:
     print(address)
-    print(results[i]["geometry"]["location"])
+    #print(results[i]["geometry"]["location"])
     print(calcDistance(g, results[i]["geometry"]["location"] ))
     print(results[i]["rating"])
     i = i + 1

@@ -55,15 +55,16 @@ app.post('/api/link', function(req, resp) {
 
               if(res.transactions[check]["type"]["primary"] == "place" && res.transactions[check]["category"])
               {
-                  for (var key in res.transactions[check]["category"])
-                  {
+                  //for (var key in res.transactions[check]["category"])
+                  //{
+			var key = res.transactions[check]["category"].length - 1;
                     //   console.log(key);
                       n = mycount.toString();
                       v = secondCount.toString();
                     //   console.log(res.transactions[check]["category"][key]);
                        myArray[n][v] = res.transactions[check]["category"][key];
                       secondCount++;
-                  }
+                  //}
                   mycount++;
                   secondCount = 0;
 
@@ -218,6 +219,37 @@ app.get('/api/favorite', function(req, resp) {
 });
 
 
+
+//------------------------------------------------------------------------------------------------------------------------------
+// PROFILE ENDPOINT - Request information about an address. Takes an address and google_id.
+//------------------------------------------------------------------------------------------------------------------------------
+
+app.post('/api/profile', function(req, resp) {
+// get the google_id
+// get the address
+    var google_id = req.body.google_id;
+    var my_message = {}
+    var pyshell = new PythonShell('dump.py')
+    my_message.profID = google_id;
+
+    my_message = JSON.stringify(my_message);
+
+    console.log(my_message);
+    pyshell.send(my_message);
+    pyshell.on('message', function (message) {
+        // received a message sent from the Python script (a simple "print" statement)
+            console.log(message);
+	var result = message;
+	resp.json(result);	
+    });
+
+// end the input stream and allow the process to exit
+    pyshell.end(function (err) {
+        if(err) throw err;
+        console.log('finished');
+});
+
+});
 
 
 

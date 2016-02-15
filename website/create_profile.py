@@ -1,9 +1,9 @@
 import MySQLdb, json, sys
 from collections import Counter
-db = MySQLdb.connect(host="localhost",    # your host, usually localhost
+db = MySQLdb.connect(host="geohunt.c8tiwzwpchl4.us-east-1.rds.amazonaws.com",    # your host, usually localhost
                      user="root",         # your username
-                     passwd="root",  # your password
-                     db="casehack")
+                     passwd="rGn3MDgfCqExqUF3",  # your password
+                     db="geohunt")
 cur = db.cursor()
 
 # Use all the SQL you like
@@ -54,10 +54,22 @@ sql = 'SELECT id FROM registered_users WHERE identity = \'' + identifier + '\''
 cur.execute(sql)
 for row in cur.fetchall():
     identifier = row[0]
+# scrub the data and delete the highest level abstractions - first key value of each list
+#for key, elem in frequency_list:
+#	if " " in key:
+		
+#    sql = 'INSERT INTO user_profiles (profile_id, category, frequency) VALUES (' + str(identifier) + ', \'' + str(key) + '\', ' + str(elem) + ') ON DUPLICATE KEY UPDATE frequency = ' + str(elem)
+#    print(sql)
+#    cur.execute(sql)
+
+#for key, elem in frequency_list:
+#    sql = 'INSERT INTO user_profiles (profile_id, category, frequency) VALUES (' + str(identifier) + ', \'' + str(key) + '\', ' + str(elem) + ') ON DUPLICATE KEY UPDATE frequency = ' + str(elem)
+#    print(sql)
+#    cur.execute(sql)
 
 # # ---------------Add in all of their values
 for key, elem in frequency_list:
-    sql = 'INSERT INTO user_profiles (profile_id, category, frequency) VALUES (' + str(identifier) + ', \'' + str(key) + '\', ' + str(elem) + ') ON DUPLICATE KEY UPDATE frequency = ' + str(elem)
+    sql = 'INSERT INTO user_profiles (profile_id, category, frequency) VALUES (' + str(identifier) + ', \'' + str(key.replace("'", "\'")) + '\', ' + str(elem) + ') ON DUPLICATE KEY UPDATE frequency = ' + str(elem)
     print(sql)
     cur.execute(sql)
     # cur.execute('''INSERT INTO user_profiles(profile_id, category, frequency) VALUES (%s, %s, %s)''', (identifier, key, elem))
