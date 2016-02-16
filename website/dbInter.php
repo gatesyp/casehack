@@ -1,6 +1,5 @@
 <?php
 ini_set('display_errors', 1);
-echo "hello";
 
 //$google_places = new joshtronic/GooglePlaces('AIzaSyAe-_fUznUY7EH9JMJ-SAsstofiMcb0qRE');
 // 
@@ -11,19 +10,10 @@ echo "hello";
 // var_dump($results);
 
 require 'dbConnect.php';
-// handle an ajax request
-// if (is_ajax()) {
   if (isset($_POST["google_id"]) && !empty($_POST["google_id"])) { //Checks if action value exists
-    // $action = $_GET["google_id"];
      main();
     }
-  // }
-// }
 
-//Function to check if the request is an AJAX request
-// function is_ajax() {
-//   return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
-// }
 
 // handles inserting repsonse and returning a response
 function main(){
@@ -54,11 +44,6 @@ function getResponses($goog)
     }
     $string = 'result:';
     return json_encode(['results' => $emparray]);
-    // $myArr =  json_encode($string => $emparray);
-    // var_dump($myArr);
-
-
-
 }
 
 //close the connection

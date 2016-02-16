@@ -6,10 +6,6 @@ db = MySQLdb.connect(host="geohunt.c8tiwzwpchl4.us-east-1.rds.amazonaws.com",   
                      db="geohunt")
 cur = db.cursor()
 
-# Use all the SQL you like
-
-# print all the first cell of all the rows
-
 my_dict = []
 
 # simple JSON echo script
@@ -54,27 +50,12 @@ sql = 'SELECT id FROM registered_users WHERE identity = \'' + identifier + '\''
 cur.execute(sql)
 for row in cur.fetchall():
     identifier = row[0]
-# scrub the data and delete the highest level abstractions - first key value of each list
-#for key, elem in frequency_list:
-#	if " " in key:
-		
-#    sql = 'INSERT INTO user_profiles (profile_id, category, frequency) VALUES (' + str(identifier) + ', \'' + str(key) + '\', ' + str(elem) + ') ON DUPLICATE KEY UPDATE frequency = ' + str(elem)
-#    print(sql)
-#    cur.execute(sql)
-
-#for key, elem in frequency_list:
-#    sql = 'INSERT INTO user_profiles (profile_id, category, frequency) VALUES (' + str(identifier) + ', \'' + str(key) + '\', ' + str(elem) + ') ON DUPLICATE KEY UPDATE frequency = ' + str(elem)
-#    print(sql)
-#    cur.execute(sql)
 
 # # ---------------Add in all of their values
 for key, elem in frequency_list:
     sql = 'INSERT INTO user_profiles (profile_id, category, frequency) VALUES (' + str(identifier) + ', \'' + str(key.replace("'", "\'")) + '\', ' + str(elem) + ') ON DUPLICATE KEY UPDATE frequency = ' + str(elem)
     print(sql)
     cur.execute(sql)
-    # cur.execute('''INSERT INTO user_profiles(profile_id, category, frequency) VALUES (%s, %s, %s)''', (identifier, key, elem))
-    # print(key)
-    # print(elem)
     db.commit()
-print("success")
+
 db.close()
