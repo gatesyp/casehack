@@ -1,0 +1,37 @@
+{
+  "manifest_version": 2,
+  "background": {
+    "persistent": false,
+    "scripts": ["background.js"]
+  },
+  "name": "GeoHunt",
+  "description": "This extension connects you to the GeoHunt server and give you recommendation about addresses.",
+  "version": "1.0.0",
+  "content_scripts": [ {
+      "all_frames": true,
+      "js": [ "content.js" ],
+      "css": [ "material.min.css", "content.css" ],
+      "matches": [ "<all_urls>" ],
+      "run_at": "document_end"
+   } ],
+  "browser_action": {
+    "default_title": "GeoHunt",
+    "default_icon": "icon.png"
+  },
+  "permissions": [
+    "activeTab",
+    "identity",
+    "identity.email",
+    "tabs",
+    "<all_urls>"
+  ],
+  "web_accessible_resources": ["15260.png", "44106.png"],
+  "options_page": "welcome.html",
+  "content_security_policy": "script-src 'self' blob: filesystem: chrome-extension-resource: https://cdn.plaid.com https://maps.googleapis.com; object-src 'self'",
+  "oauth2": {
+    "client_id": "806616901243-qgomempa1fpc32lfb6b6631au5cu5a7u.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+    ]
+  }
+}
